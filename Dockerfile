@@ -1,5 +1,5 @@
 FROM ubuntu
-
+ 
 RUN apt -y update
 RUN apt-get clean && apt-get update && apt-get install -y locales
 RUN apt -y install build-essential libpcre3-dev python3 python3-pip curl zip unzip swig
