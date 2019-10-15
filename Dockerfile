@@ -1,4 +1,4 @@
-FROM kaggle/python
+FROM ubuntu
 
 RUN apt -y update
 RUN apt-get clean && apt-get update && apt-get install -y locales
@@ -9,12 +9,8 @@ ENV LANG ru_RU.UTF-8
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN curl -sL https://github.com/dangerink/udpipe/archive/load_binary.zip -o /tmp/udpipe.zip &&     cd /tmp &&     unzip -qo /tmp/udpipe.zip  &&     cd /tmp/udpipe-load_binary/releases/pypi &&     ./gen.sh 1.2.0.1.0 &&     cd ufal.udpipe &&     python3 setup.py install &&     cd /tmp &&     rm -rf /tmp/udpipe*
-
-RUN pip install tqdm pymystem3
-RUN pip install dawg https://github.com/kmike/pymorphy2/archive/master.zip pymorphy2-dicts-ru
-RUN pip install -U pymorphy2-dicts-ru
-
+RUN wget https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased.tar.gz -O bert-base-multilingual-cased.tar.gz
+RUN pip3 install torch==0.4.1
+RUN pip3 install numpy==1.17.2 scipy sklearn pandas==0.24.2 nltk==3.2.5 gensim==3.8.0 catboost lightgbm pytorch_pretrained_bert==0.6.2 matplotlib==3.0.3 python-Levenshtein sklearn_crfsuite fastai fuzzywuzzy keras tqdm pymorphy2 summa pymystem3 pymorphy2 pymorphy2-dicts-ru jellyfish flask requests tensorflow
 RUN python -c "import pymystem3.mystem ; pymystem3.mystem.autoinstall()"
 RUN python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt');"
-
-RUN pip install jellyfish
